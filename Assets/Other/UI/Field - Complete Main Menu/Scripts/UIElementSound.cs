@@ -1,0 +1,56 @@
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
+
+namespace Michsky.UI.FieldCompleteMainMenu
+{
+    public class UIElementSound : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
+    {
+        [Header("RESOURCES")]
+        public AudioClip hoverSound;
+        public AudioClip clickSound;
+        public AudioClip notificationSound;
+
+        [Header("SETTINGS")]
+        public bool enableHoverSound = true;
+        public bool enableClickSound = true;
+        public bool isNotification;
+
+        private AudioSource HoverSource { get { return GetComponent<AudioSource>(); } }
+        private AudioSource ClickSource { get { return GetComponent<AudioSource>(); } }
+        private AudioSource NotificationSource { get { return GetComponent<AudioSource>(); } }
+
+        void Start()
+        {
+            gameObject.AddComponent<AudioSource>();
+            HoverSource.clip = hoverSound;
+            ClickSource.clip = clickSound;
+
+            HoverSource.playOnAwake = false;
+            ClickSource.playOnAwake = false;
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (enableHoverSound)
+            {
+                HoverSource.PlayOneShot(hoverSound);
+            }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (enableClickSound)
+            {
+                ClickSource.PlayOneShot(clickSound);
+            }
+        }
+
+        public void Notification()
+        {
+            if (isNotification)
+            {
+                NotificationSource.PlayOneShot(notificationSound);
+            }
+        }
+    }
+}
